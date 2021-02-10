@@ -1,0 +1,16 @@
+#box {
+    display: block; 
+    float:left;
+    width: 20px;
+    height: 25px;
+    background-color: #D5DBDB;
+    cursor: pointer;
+    box-shadow: 0px 1px 2px 3px;
+    margin: 2.2px;
+    
+}
+
+#table{
+    justify-content: center;
+    display: flex;
+}
