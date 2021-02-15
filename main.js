@@ -1,33 +1,41 @@
 var matrix = [];
+var tamI = 0;
+var tamJ = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    simple();
+    paintTable(8,8,10);
 
 });
 
-
-
-function simple(){
+function createTable(sizeN, sizeM){
     $("#item").html("");
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < sizeN; i++) {
         matrix[i] = [];
-        for (let j = 0; j < 8; j++) {
+        for (let j = 0; j < sizeM; j++) {
             matrix[i][j] = 0;
-            $("#item").append("<div class='box' id='box" + i+j + "'onclick='lookBomb(this)' > </div>");
-            $('#box'+i+j).attr('data-idI', i );
-            $('#box'+i+j).attr('data-idJ', j);
+            $("#item").append("<div class='box' id='" + i + "k" + j + "'data-idI='" + i + "'data-idJ='" + j + "'onclick='lookBomb(this)' > </div>");
         }
         $("#item").append("<br>");
     }
-    for (let k = 0; k < 11; k++) {
-        let i = Math.round(Math.random()*7);
-        let j = Math.round(Math.random()*7);        
+}
+
+function addBombs(bombs){
+    for (let k = 0; k < bombs; k++) {
+        let i = Math.round(Math.random()*(tamI-1));
+        let j = Math.round(Math.random()*(tamJ-1));        
         matrix[i][j] = 999;
     }
-    //console.log(matrix);
-    for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 8; j++) {
+}
+
+
+function paintTable(sizeN, sizeM, bombs){
+    tamI = sizeN;
+    tamJ = sizeM;
+    createTable(sizeN, sizeM);
+    addBombs(bombs);
+    for (let i = 0; i < sizeN; i++) {
+        for (let j = 0; j < sizeM; j++) {
             if(matrix[i][j] == 999){
                 let mini = i-1;
                 let minj = j-1;
@@ -35,7 +43,7 @@ function simple(){
                 tamm = minj+3;
                 for (k = mini; k < tamk ; k++) {
                     for (m = minj; m < tamm; m++) {
-                        if(k>=0 && m >=0 && k<=7 && m<=7){
+                        if(k>=0 && m >=0 && k<=(tamI-1) && m<=(tamJ-1)){
                             if(matrix[k][m] != 999){
                                 matrix[k][m] = matrix[k][m] +1;
                             }
@@ -45,32 +53,10 @@ function simple(){
             }
         }
     }
-    console.log(matrix)
+    
     
 }
-function medium(){
-    $("#item").html("");
-    for (let i = 0; i < 16; i++) {
-        for (let j = 0; j < 16; j++) {
-            $("#item").append("<div class='box' id='box" + i+j + "'onclick='lookBomb(this)'> </div>");
-            $('#box'+i+j).attr('data-id', i + '' + j);
-        }
-        $("#item").append("<br>");
-    }
-    
-}
-function difficult(){
-    $("#item").html("");
-    for (let i = 0; i < 16; i++) {
-        for (let j = 0; j < 30; j++) {
-            $("#item").append("<div class='box' id='box" + i+j + "' onclick='lookBomb(this)' > </div>");
-            $('#box'+i+j).attr('data-idI', i );
-            $('#box'+i+j).attr('data-idJ', j);
-        }
-        $("#item").append("<br>");
-    }
-    
-}
+
 
 
 function lookBomb(obj){
@@ -79,15 +65,15 @@ function lookBomb(obj){
     var idJ = $(obj).data('idj');
     if(matrix[idI][idJ] == 999){
         console.log(idI);
-        for (let i = 0; i < 8; i++) {
-            for (let j = 0; j < 8; j++) {
+        for (let i = 0; i < tamI; i++) {
+            for (let j = 0; j < tamJ; j++) {
                 if(matrix[i][j] == 999){
-                    $("#box" +i+""+j).html('<i class="fas fa-bomb"></i>');
-                    $("#box" +i+""+j).css({"background-color":"red" , "box-shadow": "0px 1px 2px 3px red" , "display":"flex" , "justify-content":"center"});
+                    $("#" +i+"k"+j).html('<i class="fas fa-bomb"></i>');
+                    $("#" +i+"k"+j).css({"background-color":"red" , "box-shadow": "0px 1px 2px 3px red" , "display":"flex" , "justify-content":"center"});
 
                 }else{
-                    $("#box" +i+""+j).html(matrix[i][j]);
-                    $("#box" +i+""+j).css({"background-color":"#707b7c" , "display":"flex" , "justify-content":"center"});
+                    $("#" +i+"k"+j).html(matrix[i][j]);
+                    $("#" +i+"k"+j).css({"background-color":"#707b7c" , "display":"flex" , "justify-content":"center"});
                 }
                 
                 
@@ -95,15 +81,8 @@ function lookBomb(obj){
         }
 
     }else{
-        $("#box" +idI+""+idJ).html(matrix[idI][idJ]);
-        $("#box" +idI+""+idJ).css({"background-color":"#707b7c" , "display":"flex" , "justify-content":"center"});
+        $("#" +idI+"k"+idJ).html(matrix[idI][idJ]);
+        $("#" +idI+"k"+idJ).css({"background-color":"#707b7c" , "display":"flex" , "justify-content":"center"});
     }
-    /*$("#box00").html(matrix[0][0]);
-    $("#box01").html('2');
-    $("#box10").html('<i class="fas fa-bomb"></i>');
-    $("#box10").css({"background-color":"red" , "box-shadow": "0px 1px 2px 3px red" , "display":"flex" , "justify-content":"center"});
-    $("#box00").css({"background-color":"#707b7c" , "display":"flex" , "justify-content":"center"});
-    $("#box01").css({"background-color":"#707b7c" , "display":"flex" , "justify-content":"center"});
-    $("#box11").css({"background-color":"#707b7c" , "display":"flex" , "justify-content":"center"});
-    $("#box05").css({"background-color":"#707b7c", "display":"flex" , "justify-content":"center"});*/
+    
 }
