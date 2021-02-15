@@ -63,8 +63,11 @@ function lookBomb(obj){
 
     var idI = $(obj).data('idi');
     var idJ = $(obj).data('idj');
+    var audioBom = new Audio('https://raw.githubusercontent.com/khalilelfatni/appWEB/master/001105163_prev.mp3');
+    var audioBoton = new Audio('https://raw.githubusercontent.com/khalilelfatni/appWEB/master/SD_NAVIGATE_58.mp3');
+
     if(matrix[idI][idJ] == 999){
-        console.log(idI);
+        audioBom.play();
         for (let i = 0; i < tamI; i++) {
             for (let j = 0; j < tamJ; j++) {
                 if(matrix[i][j] == 999){
@@ -81,6 +84,7 @@ function lookBomb(obj){
         }
 
     }else{
+        audioBoton.play();
         $("#" +idI+"k"+idJ).html(matrix[idI][idJ]);
         $("#" +idI+"k"+idJ).css({"background-color":"#707b7c" , "display":"flex" , "justify-content":"center"});
     }
